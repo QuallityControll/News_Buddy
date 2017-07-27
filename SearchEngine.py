@@ -303,13 +303,17 @@ class MySearchEngine():
     #  querying
     # ------------------------------------------------------------------------
 
-    def query(self, q, k=10):
+    def query(self, q, k=10, mode = "or"):
         """ Returns up to top k documents matching at least one term in query q, sorted by relevance.
 
             Parameters
             ----------
             q: str
                 A string containing words to match on, e.g., "cat hat".
+            k: int
+                The number of top matched documents to return, e.g., k = 8 will return the top 8 document ids.
+            mode: str
+                The mode in which to search. By default, it is set to "or".
 
             Returns
             -------
@@ -323,7 +327,15 @@ class MySearchEngine():
 
         # get matches
         # just support OR for now...
-        ids = self.get_matches_OR(query_tokens)
+        if mode == "or":
+            ids = self.get_matches_OR(query_tokens)
+
+        elif mode == "and"
+            ids = self.get_matches_AND(query_tokens)
+
+        else:
+            msg = "Mode not implemented."
+            raise Exception(msg)
 
         # convert query to a term vector (Counter over tokens)
         query_tv = Counter(query_tokens)
