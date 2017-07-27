@@ -53,17 +53,17 @@ entity: Any proper noun
   --> [Boston, Boston Red Sox,...]
   
   ```
-  def most_associated_with_word(search_engine, word):
+  def most_associated_with_word(search_engine, phrase):
   
       """
-      Gets the entities that are associated with a word/topic. 
+      Gets the entities that are associated with a word/topic/phrase. 
       
       param:
         search_engine [MySearchEngine]:
           The search engine
           
         word[str]:
-          The word that you want to find the entities associated with it. 
+          The word/phrase that you want to find the entities associated with it. 
           
        returns:
          associated_entities[Iterable]:
