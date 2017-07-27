@@ -69,11 +69,11 @@ def most_associated_with_entity(search_engine, entity, num_entities=10, num_docs
     """
 
     queries = search_engine.query(entity, k=num_docs)
+    docs, scores = unzip(queries)
     associated_entities = []
-    for doc in queries:
+    for doc in docs:
         a = get_entities(search_engine.get(doc))
         for list1 in a:
             entities, part_of_speech = unzip(list1)
             associated_entities.append(" ".join(entities))
-
     return associated_entities[:num_entities]
