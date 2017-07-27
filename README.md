@@ -22,7 +22,7 @@
             The first sentence of the highest ranking document.
         """          
     
-    ```
+  ```
  
 2. Top entity associated with [Kim K]:
 
