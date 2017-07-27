@@ -29,6 +29,29 @@ entity: Any proper noun
 
   --> [Chris Jenner, ...]
   
+  Has a get_entities function
+  
+  ```
+  def get_entities(sentence):
+    """
+    Gets the entities from a sentence.
+
+    params:
+        sentence[str]:
+            The sentence that you want to get the proper nouns of.
+
+    returns:
+        proper_nouns[list of list of tuples]:
+            A list of list of tuples that has the proper nouns and their part of speech.
+            ie.
+            [[('North', 'NNP'), ('Korea', 'NNP')],
+            [('Kim', 'NNP'), ('Jong', 'NNP'), ('Un', 'NNP')],
+            [('US', 'NNP')],
+            [('Dennis', 'NNP'), ('Rodman', 'NNP')]]
+
+    """
+  ```
+  
   ```
   def most_associated_with_entity(search_engine, entity, k=10):
     """
