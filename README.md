@@ -53,7 +53,7 @@ entity: Any proper noun
   --> [Boston, Boston Red Sox,...]
   
   ```
-  def most_associated_with_word(search_engine, phrase):
+  def most_associated_with_phrase(search_engine, phrase):
   
       """
       Gets the entities that are associated with a word/topic/phrase. 
