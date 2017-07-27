@@ -28,6 +28,27 @@
 
   --> [Chris Jenner, ...]
   
+  ```
+  def most_associated_with_entity(search_engine, entity):
+  
+      """
+      Gets the entities that are associated with another entity. 
+      
+      param:
+        search_engine [MySearchEngine]:
+          The search engine
+          
+        entity[Iterable or string]:
+          The entity that you want to find the entities associated with it. 
+          
+       returns:
+         associated_entities[Iterable]:
+            The entities associated with the asked for entity. 
+        """          
+  
+  
+  ```
+  
 3. Top entities associated with "sports":
 
   --> [Boston, Boston Red Sox,...]
