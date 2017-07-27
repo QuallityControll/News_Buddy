@@ -272,7 +272,7 @@ class MySearchEngine():
             float
                 The cosine similarity of documents 1 and 2 as defined above.
         """
-        return self.dot_product(tv1, tv2) / (self.length(tv1) * self.length(tv2))
+        return self.dot_product(tv1, tv2) / (max(1e-7, self.length(tv1) * self.length(tv2)))
 
     # ------------------------------------------------------------------------
     #  querying
