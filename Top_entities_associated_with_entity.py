@@ -69,6 +69,8 @@ def most_associated_with_entity(search_engine, entity, num_entities=10, num_docs
     """
 
     queries = search_engine.query(entity, k=num_docs)
+    return queries
+
     associated_entities = []
     for doc in queries:
         a = get_entities(search_engine.get(doc))
