@@ -30,22 +30,24 @@ entity: Any proper noun
   --> [Chris Jenner, ...]
   
   ```
-  def most_associated_with_entity(search_engine, entity):
-  
-      """
-      Gets the entities that are associated with another entity. 
-      
-      param:
+  def most_associated_with_entity(search_engine, entity, k=10):
+    """
+    Gets the entities that are associated with another entity.
+
+    param:
         search_engine [MySearchEngine]:
-          The search engine
-          
+            The search engine
+
         entity[string]:
-          The entity that you want to find the entities associated with it. 
-          
-       returns:
-         associated_entities[Iterable]:
-            The entities associated with the asked for entity. 
-        """          
+            The entity that you want to find the entities associated with it.
+
+        k[int]:
+            An int that describes the amount of entities returned.
+
+    returns:
+        associated_entities[Iterable]:
+            The top k entities associated with the asked for entity.
+    """
   ```
   
 3. Top entities associated with "sports":
