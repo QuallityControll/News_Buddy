@@ -1,5 +1,8 @@
 # News_Buddy
 
+entity: Any proper noun
+
+
 1. What's new with "movies"?
 
   --> 1st sentence of highest ranking document
