@@ -4,6 +4,16 @@ import nltk
 from nltk.tokenize import word_tokenize
 
 
+def unzip(pairs):
+    """
+    Splits list of pairs (tuples) into separate lists.
+
+    Example: pairs = [("a", 1), ("b", 2)] --> ["a", "b"] and [1, 2]
+
+    """
+    return tuple(zip(*pairs))
+
+
 def get_entities(sentence):
     """
     Gets the entities from a sentence.
@@ -35,7 +45,7 @@ def get_entities(sentence):
     return proper_nouns
 
 
-def most_associated_with_entity(search_engine, entity, num_entities=10):
+def most_associated_with_entity(search_engine, entity, num_entities=10, num_docs=10):
     """
     Gets the entities that are associated with another entity.
 
@@ -49,14 +59,21 @@ def most_associated_with_entity(search_engine, entity, num_entities=10):
         num_entities[int]:
             An int that describes the amount of entities returned.
 
+        num_docs[int]:
+            An int that describes the amount of docs that are wanted to be looked at.
+
     returns:
         associated_entities[Iterable]:
             The top num_entities entities associated with the asked for entity.
 
     """
 
-    queries = search_engine.query(entity, k=num_entities)
-    assosiated_entities = []
+    queries = search_engine.query(entity, k=num_docs)
+    associated_entities = []
     for doc in queries:
         a = get_entities(search_engine.get(doc))
-        assosiated_entities
+        for list1 in a:
+            entities, part_of_speech = unzip(list1)
+            associated_entities.append(" ".join(entities))
+
+    return associated_entities[:num_entities]
