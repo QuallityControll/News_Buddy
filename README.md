@@ -38,7 +38,7 @@
         search_engine [MySearchEngine]:
           The search engine
           
-        entity[Iterable or string]:
+        entity[string]:
           The entity that you want to find the entities associated with it. 
           
        returns:
@@ -52,3 +52,24 @@
 3. Top entities associated with "sports":
 
   --> [Boston, Boston Red Sox,...]
+  
+  ```
+  
+  def most_associated_with_word(search_engine, word):
+  
+      """
+      Gets the entities that are associated with a word/topic. 
+      
+      param:
+        search_engine [MySearchEngine]:
+          The search engine
+          
+        word[str]:
+          The word that you want to find the entities associated with it. 
+          
+       returns:
+         associated_entities[Iterable]:
+            The entities associated with the asked for word. 
+        """          
+    
+  ```
