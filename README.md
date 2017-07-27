@@ -22,8 +22,7 @@ entity: Any proper noun
        returns:
          sentence[str]:
             The first sentence of the highest ranking document.
-        """          
-    
+        """              
   ```
  
 2. Top entity associated with [Kim K]:
@@ -47,8 +46,6 @@ entity: Any proper noun
          associated_entities[Iterable]:
             The entities associated with the asked for entity. 
         """          
-  
-  
   ```
   
 3. Top entities associated with "sports":
@@ -72,5 +69,4 @@ entity: Any proper noun
          associated_entities[Iterable]:
             The entities associated with the asked for word. 
         """          
-    
   ```
