@@ -29,23 +29,48 @@ entity: Any proper noun
 
   --> [Chris Jenner, ...]
   
-  ```
-  def most_associated_with_entity(search_engine, entity):
+  Has a get_entities function
   
-      """
-      Gets the entities that are associated with another entity. 
-      
-      param:
+  ```
+  def get_entities(sentence):
+    """
+    Gets the entities from a sentence.
+
+    params:
+        sentence[str]:
+            The sentence that you want to get the proper nouns of.
+
+    returns:
+        proper_nouns[list of list of tuples]:
+            A list of list of tuples that has the proper nouns and their part of speech.
+            ie.
+            [[('North', 'NNP'), ('Korea', 'NNP')],
+            [('Kim', 'NNP'), ('Jong', 'NNP'), ('Un', 'NNP')],
+            [('US', 'NNP')],
+            [('Dennis', 'NNP'), ('Rodman', 'NNP')]]
+
+    """
+  ```
+  
+  ```
+  def most_associated_with_entity(search_engine, entity, k=10):
+    """
+    Gets the entities that are associated with another entity.
+
+    param:
         search_engine [MySearchEngine]:
-          The search engine
-          
+            The search engine
+
         entity[string]:
-          The entity that you want to find the entities associated with it. 
-          
-       returns:
-         associated_entities[Iterable]:
-            The entities associated with the asked for entity. 
-        """          
+            The entity that you want to find the entities associated with it.
+
+        k[int]:
+            An int that describes the amount of entities returned.
+
+    returns:
+        associated_entities[Iterable]:
+            The top k entities associated with the asked for entity.
+    """
   ```
   
 3. Top entities associated with "sports":
