@@ -1,5 +1,4 @@
 from collections import defaultdict, Counter
-import nltk
 from nltk.tokenize import word_tokenize
 import numpy as np
 import string
@@ -25,22 +24,17 @@ class MySearchEngine():
 
     def tokenize(self, text):
         """ Converts text into tokens (also called "terms" or "words").
-
             This function should also handle normalization, e.g., lowercasing and
             removing punctuation.
-
             For example, "The cat in the hat." --> ["the", "cat", "in", "the", "hat"]
-
             Parameters
             ----------
             text: str
                 The string to separate into tokens.
-
             Returns
             -------
             list(str)
                 A list where each element is a token.
-
         """
         # Hint: use NLTK's recommended word_tokenize() then filter out punctuation
         # It uses Punkt for sentence splitting and then tokenizes each sentence.
@@ -55,7 +49,6 @@ class MySearchEngine():
 
     def add(self, id, text):
         """ Adds document to index.
-
             Parameters
             ----------
             id: str
@@ -89,7 +82,6 @@ class MySearchEngine():
 
     def remove(self, id):
         """ Removes document from index.
-
             Parameters
             ----------
             id: str
@@ -115,7 +107,6 @@ class MySearchEngine():
 
     def get(self, id):
         """ Returns the original (raw) text of a document.
-
             Parameters
             ----------
             id: str
@@ -138,12 +129,10 @@ class MySearchEngine():
 
     def get_matches_term(self, term):
         """ Returns ids of documents that contain term.
-
             Parameters
             ----------
             term: str
                 A single token, e.g., "cat" to match on.
-
             Returns
             -------
             set(str)
@@ -155,12 +144,10 @@ class MySearchEngine():
 
     def get_matches_OR(self, terms):
         """ Returns set of documents that contain at least one of the specified terms.
-
             Parameters
             ----------
             terms: iterable(str)
                 An iterable of terms to match on, e.g., ["cat", "hat"].
-
             Returns
             -------
             set(str)
@@ -177,12 +164,10 @@ class MySearchEngine():
 
     def get_matches_AND(self, terms):
         """ Returns set of documents that contain all of the specified terms.
-
             Parameters
             ----------
             terms: iterable(str)
                 An iterable of terms to match on, e.g., ["cat", "hat"].
-
             Returns
             -------
             set(str)
@@ -199,12 +184,10 @@ class MySearchEngine():
 
     def get_matches_NOT(self, terms):
         """ Returns set of documents that don't contain any of the specified terms.
-
             Parameters
             ----------
             terms: iterable(str)
                 An iterable of terms to avoid, e.g., ["cat", "hat"].
-
             Returns
             -------
             set(str)
@@ -225,12 +208,10 @@ class MySearchEngine():
 
     def idf(self, term):
         """ Returns current inverse document frequency weight for a specified term.
-
             Parameters
             ----------
             term: str
                 A term.
-
             Returns
             -------
             float
@@ -240,14 +221,12 @@ class MySearchEngine():
 
     def dot_product(self, tv1, tv2):
         """ Returns dot product between two term vectors (including idf weighting).
-
             Parameters
             ----------
             tv1: Counter
                 A Counter that contains term frequencies for terms in document 1.
             tv2: Counter
                 A Counter that contains term frequencies for terms in document 2.
-
             Returns
             -------
             float
@@ -264,12 +243,10 @@ class MySearchEngine():
 
     def length(self, tv):
         """ Returns the length of a document (including idf weighting).
-
             Parameters
             ----------
             tv: Counter
                 A Counter that contains term frequencies for terms in the document.
-
             Returns
             -------
             float
@@ -283,14 +260,12 @@ class MySearchEngine():
 
     def cosine_similarity(self, tv1, tv2):
         """ Returns the cosine similarity (including idf weighting).
-
             Parameters
             ----------
             tv1: Counter
                 A Counter that contains term frequencies for terms in document 1.
             tv2: Counter
                 A Counter that contains term frequencies for terms in document 2.
-
             Returns
             -------
             float
@@ -304,7 +279,6 @@ class MySearchEngine():
 
     def query(self, q, k=10, mode = "or"):
         """ Returns up to top k documents matching at least one term in query q, sorted by relevance.
-
             Parameters
             ----------
             q: str
@@ -313,12 +287,10 @@ class MySearchEngine():
                 The number of top matched documents to return, e.g., k = 8 will return the top 8 document ids.
             mode: str
                 The mode in which to search. By default, it is set to "or".
-
             Returns
             -------
             List(tuple(str, float))
                 A list of (document, score) pairs sorted in descending order.
-
         """
         # tokenize query
         # note: it's very important to tokenize the same way the documents were so that matching will work
@@ -329,7 +301,7 @@ class MySearchEngine():
         if mode == "or":
             ids = self.get_matches_OR(query_tokens)
 
-        elif mode == "and"
+        elif mode == "and":
             ids = self.get_matches_AND(query_tokens)
 
         else:
