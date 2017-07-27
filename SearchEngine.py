@@ -3,7 +3,6 @@ import nltk
 from nltk.tokenize import word_tokenize
 import numpy as np
 import string
-import time
 
 
 class MySearchEngine():
