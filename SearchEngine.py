@@ -4,6 +4,7 @@ from nltk.tokenize import word_tokenize
 import numpy as np
 import string
 
+__all__ = ["MySearchEngine"]
 
 class MySearchEngine():
     def __init__(self):
@@ -329,7 +330,7 @@ class MySearchEngine():
         if mode == "or":
             ids = self.get_matches_OR(query_tokens)
 
-        elif mode == "and"
+        elif mode == "and":
             ids = self.get_matches_AND(query_tokens)
 
         else:
