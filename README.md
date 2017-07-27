@@ -4,7 +4,6 @@
 
   --> 1st sentence of highest ranking document
   ```
-  
   def new_with(search_engine, texts):
   
       """
@@ -54,7 +53,6 @@
   --> [Boston, Boston Red Sox,...]
   
   ```
-  
   def most_associated_with_word(search_engine, word):
   
       """
