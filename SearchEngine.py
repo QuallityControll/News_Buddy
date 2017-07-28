@@ -6,6 +6,7 @@ import string
 
 __all__ = ["MySearchEngine"]
 
+
 class MySearchEngine():
     def __init__(self):
         # Dict[str, str]: maps document id to original/raw text
@@ -128,7 +129,6 @@ class MySearchEngine():
         for ent_list in entities:
             #unpack, zip, join
             ent_phrase = " ".join(list(zip(*ent_list))[0])
-            print(ent_phrase)
             ent_phrases.append(ent_phrase)
 
         # create entity vector for document (a Counter over entities)
