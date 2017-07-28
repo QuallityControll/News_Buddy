@@ -81,11 +81,11 @@ class MySearchEngine():
         proper_nouns = []
         for i in range(0, len(named_entities)):
             ents = named_entities.pop()
-            if getattr(ents, 'label', None) != None and ents.label() == "NE":
+            if getattr(ents, 'label', None) is not None and ents.label() == "NE" and ([ne for ne in ents][0][1] == "NNP" or
+                                                                                  [ne for ne in ents][0][1] == "NNPS"):
                 proper_nouns.append([ne for ne in ents])
 
         return proper_nouns
-
 
     def add(self, id, text):
         """ Adds document to index.
@@ -139,7 +139,6 @@ class MySearchEngine():
         #update entity coocurrence matrix
         for ref_ent_phrase in ent_phrases_set:                      #remove self coocurrence
             self.entity_coocurrences[ref_ent_phrase].update(ent_phrases_set - {ref_ent_phrase})
-
 
     def remove(self, id):
         """ Removes document from index.
@@ -407,4 +406,3 @@ class MySearchEngine():
 
         # sort results and return top k
         return scores[:k]
-
