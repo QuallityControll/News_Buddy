@@ -81,7 +81,10 @@ def most_associated_with_entity(search_engine, entity, num_entities=10):
 
     """
 
-    associated_entities = search_engine.get_associated_entities(entity)
+    try:
+        associated_entities = search_engine.get_associated_entities(entity)
+    except:
+        return []
 
     return list(list(zip(*associated_entities.most_common(num_entities)))[0])
 
@@ -111,7 +114,10 @@ def most_associated_with_phrase(search_engine, text, num_entities=10, num_docs=1
     """
 
     # get ids of most relevant documents through query
-    doc_ids = list(zip(*search_engine.query(text, k=num_docs, mode="and")))[0]
+    try:
+        doc_ids = list(zip(*search_engine.query(text, k=num_docs, mode="and")))[0]
+    except:
+        return []
 
     # sum over entites vectors of all relevant documents
     accumulative_counter = Counter()
@@ -129,14 +135,29 @@ def update_via_rss_feed(search_engine, rss_url):
         search_engine [MySearchEngine]:
             The search engine
 
-        rss_url [String]:
-            The url of the rss feed from which to import articles.
+        rss_url [String] or [Iterable(String)]
+            The url or iterable of urls of the rss feed(s) from which to import articles.
+
 
     returns:
         updates database with new articles found from rss feed.
     """
 
-    feed_dict = collect(rss_url, mode='return')
+    if type(rss_url) == str:
+        #collect rss field to dictionary(Str,Str)
+        feed_dict = collect(rss_url, mode='return', print_status=False)
 
-    for article_id in feed_dict:
-        search_engine.add(article_id, feed_dict[article_id])
+        #add each article to dictionary
+        for article_id in feed_dict:
+            search_engine.add(article_id, feed_dict[article_id])
+        print("Added feed to database. Source: " + rss_url)
+
+    elif hasattr(rss_url, '__iter__'):
+        for url in rss_url:
+            #collect rss field to dictionary(Str,Str)
+            feed_dict = collect(url, mode='return', print_status = False)
+
+            #add each article to dictionary
+            for article_id in feed_dict:
+                search_engine.add(article_id, feed_dict[article_id])
+            print("Added feed to database. Source: " + url)

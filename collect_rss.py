@@ -12,7 +12,7 @@ def get_text(link):
     text = "\n\n".join([p.text for p in paragraphs if not p.is_boilerplate])
     return text
 
-def collect(url, filename="rssdata.txt", mode='write'):
+def collect(url, filename="rssdata.txt", mode='write', print_status=True):
     # read RSS feed
     d = feedparser.parse(url)
 
@@ -20,7 +20,8 @@ def collect(url, filename="rssdata.txt", mode='write'):
     texts = {}
     for entry in d["entries"]:
         link = entry["link"]
-        print("downloading: " + link)
+        if print_status:
+            print("downloading: " + link)
         text = get_text(link)
         texts[link] = text
 
