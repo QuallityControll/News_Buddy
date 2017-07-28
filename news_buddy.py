@@ -2,8 +2,14 @@ from SearchEngine import MySearchEngine
 import nltk
 from nltk.tokenize import word_tokenize
 from collections import Counter
+from collect_rss import collect
 
-__all__ = ["new_with", "most_associated_with_entity", "most_associated_with_phrase"]
+__all__ = [
+        "new_with",
+        "most_associated_with_entity",
+        "most_associated_with_phrase",
+        "update_via_rss_feed"
+        ]
 
 
 def new_with(search_engine, texts):
@@ -110,3 +116,23 @@ def most_associated_with_phrase(search_engine, text, num_entities=10, num_docs=1
 
     #return most frequent entities in accumulative vector
     return list(list(zip(*accumulative_counter.most_common(num_entities)))[0])
+
+def update_via_rss_feed(search_engine, rss_url):
+    """
+    Updates search engine with articles from the given rss feed url.
+
+    params:
+        search_engine [MySearchEngine]:
+            The search engine
+
+        rss_url [String]:
+            The url of the rss feed from which to import articles.
+
+    returns:
+        updates database with new articles found from rss feed.
+    """
+
+    feed_dict = collect(rss_url, mode='return')
+
+    for article_id in feed_dict:
+        search_engine.add(article_id, feed_dict[article_id])
