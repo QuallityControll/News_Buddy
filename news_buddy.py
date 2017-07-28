@@ -1,8 +1,9 @@
 from SearchEngine import MySearchEngine
 import nltk
 from nltk.tokenize import word_tokenize
+from collections import Counter
 
-__all__ = ["new_with", "most_associated_with_entity"]
+__all__ = ["new_with", "most_associated_with_entity", "most_associated_with_phrase"]
 
 
 def new_with(search_engine, texts):
@@ -51,7 +52,7 @@ def new_with(search_engine, texts):
 
 def most_associated_with_entity(search_engine, entity, num_entities=10):
     """
-    Gets the entities that are associated with another entity.
+    Gets the entities that are most associated with another entity.
 
     params:
         search_engine [MySearchEngine]:
@@ -66,7 +67,7 @@ def most_associated_with_entity(search_engine, entity, num_entities=10):
 
 
     returns:
-        associated_entities[Iterable]:
+        associated_entities[List]:
             The top num_entities entities associated with the asked for entity.
 
     """
@@ -74,3 +75,38 @@ def most_associated_with_entity(search_engine, entity, num_entities=10):
     associated_entities = search_engine.get_associated_entities(entity)
 
     return list(list(zip(*associated_entities.most_common(num_entities)))[0])
+
+def most_associated_with_phrase(search_engine, text, num_entities=10, num_docs=10):
+    """
+    Gets the entities that are most associated with a phrase.
+
+    params:
+        search_engine [MySearchEngine]:
+            The search engine
+
+        text[string]:
+            The phrase that you want to find the entities associated with.
+            It can be a single word or multiple words separated by spaces.
+
+        num_entities[int]:
+            An int that describes the amount of entities returned.
+
+        num_docs[int]:
+            An int that describes the maximum number of documents to be searched
+            through.
+
+    returns:
+        associated_entities[List]:
+            The top num_entities entities associated with the asked for phrase.
+    """
+
+    #get ids of most relevant documents through query
+    doc_ids = list(zip(*search_engine.query(text, k=num_docs, mode="and")))[0]
+
+    #sum over entites vectors of all relevant documents
+    accumulative_counter = Counter()
+    for doc_id in doc_ids:
+        accumulative_counter = accumulative_counter + search_engine.get_entity_vector(doc_id)
+
+    #return most frequent entities in accumulative vector
+    return list(list(zip(*accumulative_counter.most_common(num_entities)))[0])
