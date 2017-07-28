@@ -150,7 +150,10 @@ def update_via_rss_feed(rss_url, search_engine=mse):
 
         #add each article to dictionary
         for article_id in feed_dict:
-            search_engine.add(article_id, feed_dict[article_id])
+            try:
+                search_engine.add(article_id, feed_dict[article_id])
+            except:
+                pass
         print("Added feed to database. Source: " + rss_url)
 
     elif hasattr(rss_url, '__iter__'):
@@ -160,5 +163,8 @@ def update_via_rss_feed(rss_url, search_engine=mse):
 
             #add each article to dictionary
             for article_id in feed_dict:
-                search_engine.add(article_id, feed_dict[article_id])
+                try:
+                    search_engine.add(article_id, feed_dict[article_id])
+                except:
+                    pass
             print("Added feed to database. Source: " + url)
