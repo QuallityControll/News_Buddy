@@ -1,5 +1,6 @@
 from collections import defaultdict, Counter
 from nltk.tokenize import word_tokenize
+import nltk
 import numpy as np
 import string
 
@@ -18,6 +19,9 @@ class MySearchEngine():
 
         # Dict[str, set]: maps term to set of ids of documents that contain term
         self.inverted_index = defaultdict(set)
+
+        # Dict[str, Counter]: maps Entity phrase to Counter of its coocurrences with other Entity phrases
+        self.entity_coocurrences = defaultdict(Counter)
 
     # ------------------------------------------------------------------------
     #  indexing
@@ -47,6 +51,37 @@ class MySearchEngine():
 
         # lowercase and filter out punctuation (as in string.punctuation)
         return [token.lower() for token in tokens if not token in string.punctuation]
+
+    def get_entities_from_text(self, text):
+        """
+        Gets the entities from a body of text.
+
+        params:
+            text[str]:
+                The text that you want to get the proper nouns of.
+
+        returns:
+            proper_nouns[list of list of tuples]:
+                A list of list of tuples that has the proper nouns and their part of speech.
+                ie.
+                [[('North', 'NNP'), ('Korea', 'NNP')],
+                [('Kim', 'NNP'), ('Jong', 'NNP'), ('Un', 'NNP')],
+                [('US', 'NNP')],
+                [('Dennis', 'NNP'), ('Rodman', 'NNP')]]
+
+        """
+
+        tokens = word_tokenize(text)
+        pos = nltk.pos_tag(tokens)
+        named_entities = nltk.ne_chunk(pos, binary=True)
+        proper_nouns = []
+        for i in range(0, len(named_entities)):
+            ents = named_entities.pop()
+            if getattr(ents, 'label', None) != None and ents.label() == "NE":
+                proper_nouns.append([ne for ne in ents])
+
+        return proper_nouns
+
 
     def add(self, id, text):
         """ Adds document to index.
@@ -81,6 +116,23 @@ class MySearchEngine():
         # i.e., counts should increase by 1 for each (unique) term in term vector
         self.doc_freq.update(term_vector.keys())
 
+        # get entities from raw text
+        entities = self.get_entities_from_text(text)
+
+        ent_phrases = set() #set so unique entitity phrases will be captured
+
+        #unpack list of tuples and join into one string (multiword) phrase per endtity
+        for ent_list in entities:
+            #unpack, zip, join
+            ent_phrase = " ".join(list(zip(*ent_list))[0])
+            print(ent_phrase)
+            ent_phrases.add(ent_phrase)
+
+        #update entity coocurrence matrix
+        for ref_ent_phrase in ent_phrases:                      #remove self coocurrence
+            self.entity_coocurrences[ref_ent_phrase].update(ent_phrases - {ref_ent_phrase})
+
+
     def remove(self, id):
         """ Removes document from index.
             Parameters
@@ -113,11 +165,30 @@ class MySearchEngine():
             id: str
                 The identifier of the document to return.
         """
-        # check if document exists and throw exception if so
+        # check if document exists and throw exception if not
         if not id in self.raw_text:
             raise KeyError("document with id [" + id + "] not found in index.")
 
         return self.raw_text[id]
+
+    def get_associated_entities(self, entity):
+        """ Returns the Counter of coocurrences of given entity with all other
+            entities in database.
+            Parameters
+            ----------
+            entity: str
+                The entity whose associated entities are returned.
+            Returns
+            ------
+            Counter
+                A counter of entity coocurrences.
+        """
+
+        #check if entity exists and throw exception if not
+        if not entity in self.entity_coocurrences:
+            raise KeyError("entity with name [" + entity + "] not found in index.")
+
+        return self.entity_coocurrences[entity]
 
     def num_docs(self):
         """ Returns the current number of documents in index.
@@ -272,7 +343,7 @@ class MySearchEngine():
             float
                 The cosine similarity of documents 1 and 2 as defined above.
         """
-        return self.dot_product(tv1, tv2) / (self.length(tv1) * self.length(tv2))
+        return self.dot_product(tv1, tv2) / (max(1e-7, self.length(tv1) * self.length(tv2)))
 
     # ------------------------------------------------------------------------
     #  querying
