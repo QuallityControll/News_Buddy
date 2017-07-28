@@ -56,6 +56,7 @@ class MySearchEngine():
         # lowercase and filter out punctuation (as in string.punctuation)
         return [token.lower() for token in tokens if not token in string.punctuation]
 
+
     def get_entities_from_text(self, text):
         """
         Gets the entities from a body of text.
