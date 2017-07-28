@@ -407,3 +407,4 @@ class MySearchEngine():
 
         # sort results and return top k
         return scores[:k]
+
