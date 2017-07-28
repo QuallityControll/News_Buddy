@@ -23,13 +23,13 @@ def new_with(search_engine, texts):
             The first sentence of the highest ranking document.
     """
 
-    #if texts is a list, make it into a space seperated string of words
+    # if texts is a list, make it into a space seperated string of words
     if type(texts) != str and hasattr(texts, '__iter__'):
         texts = " ".join(texts)
 
     assert(type(texts) == str)
 
-    #get id of top document
+    # get id of top document
     doc_ids = search_engine.query(texts, k=1, mode="and")
 
     if len(doc_ids) == 0:
@@ -37,16 +37,19 @@ def new_with(search_engine, texts):
 
     best_doc_id = doc_ids[0][0]
 
-    #get raw text
+    # get raw text
     raw_text = search_engine.get(best_doc_id)
 
-    #tokenize raw text
+    # tokenize raw text
     raw_tokens = word_tokenize(raw_text)
 
-    #find index of first period in token list
+    # find index of first period in token list
+    if "." not in raw_tokens:
+        return " ".join(raw_tokens)
+
     first_period_index = raw_tokens.index(".")
 
-    #slice token list to get first sentence, add period to end without space
+    # slice token list to get first sentence, add period to end without space
     return " ".join(raw_tokens[:first_period_index]) + "."
 
 
@@ -76,6 +79,7 @@ def most_associated_with_entity(search_engine, entity, num_entities=10):
 
     return list(list(zip(*associated_entities.most_common(num_entities)))[0])
 
+
 def most_associated_with_phrase(search_engine, text, num_entities=10, num_docs=10):
     """
     Gets the entities that are most associated with a phrase.
@@ -100,13 +104,13 @@ def most_associated_with_phrase(search_engine, text, num_entities=10, num_docs=1
             The top num_entities entities associated with the asked for phrase.
     """
 
-    #get ids of most relevant documents through query
+    # get ids of most relevant documents through query
     doc_ids = list(zip(*search_engine.query(text, k=num_docs, mode="and")))[0]
 
-    #sum over entites vectors of all relevant documents
+    # sum over entites vectors of all relevant documents
     accumulative_counter = Counter()
     for doc_id in doc_ids:
         accumulative_counter = accumulative_counter + search_engine.get_entity_vector(doc_id)
 
-    #return most frequent entities in accumulative vector
+    # return most frequent entities in accumulative vector
     return list(list(zip(*accumulative_counter.most_common(num_entities)))[0])
