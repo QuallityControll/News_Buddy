@@ -1,0 +1,26 @@
+RSS
+
+Really Simple syndication 
+
+It is a type of web feed which allows users to access updates to online content in a standardized, computer-readable format
+
+It is a way to easily distribute a list of headlines, update notices, and sometimes content to a wide number of people. Used by computer programs that organize those headlines and notices for easy reading.
+ 
+These feeds can, for example, allow a user to keep track of many different websites in a single news aggregator. The news aggregator will automatically check the RSS feed for new content, allowing the content to be automatically passed from website to website or from website to user. 
+
+Subscribing to a website RSS removes the need for the user to manually check the website for new content. 
+
+Provides basic info. Made up of a list of items presented in order from newest to oldest. Each item consists of a describing title with a more complete description and a link to to webpage describing the actual information
+
+Ex - 
+Item 1:	 
+  Title:	Sidewalk contract awarded
+  Description:	The city awarded the sidewalk contract to Smith Associates. This hotly contested deal is worth $1.2 million.
+  Link:	http://www.gardencitynews.com/contractawards/sidewalk.htm
+Item 2:	 
+  Title:	Governor to visit
+  Description:	The governor is scheduled to visit the city on July 1st. This is the first visit since the election two years ago. The mayor is planning a big reception.
+  Link:	http://www.gardencitynews.com/news/2004/06/gov-visit.htm
+
+RSS aggregator is a web broweer for RSS content, they check RSS feeds for new items on an ongoing basis - so you don’t have to go through them.
+ 

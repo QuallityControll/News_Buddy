@@ -1,4 +1,5 @@
 from collections import defaultdict, Counter
+import nltk
 from nltk.tokenize import word_tokenize
 import nltk
 import numpy as np
@@ -389,3 +390,34 @@ class MySearchEngine():
 
         # sort results and return top k
         return scores[:k]
+
+    def get_entities(self, sentence):
+        """
+        Gets the entities from a sentence.
+
+        params:
+            sentence[str]:
+                The sentence that you want to get the proper nouns of.
+
+        returns:
+            proper_nouns[list]:
+                A list of proper nouns.
+                ie.
+                ["North Korea", "Kim Jong Un", ... ]
+        """
+
+        tokens = word_tokenize(sentence)
+        pos = nltk.pos_tag(tokens)
+        named_entities = nltk.ne_chunk(pos, binary=True)
+        proper_nouns = []
+        a = []
+        for i in range(0, len(named_entities)):
+            ents = named_entities.pop()
+            if getattr(ents, 'label', None) != None and ents.label() == "NE":
+                a.append([ne for ne in ents])
+
+        for list1 in a:
+            entities, part_of_speech = tuple(zip(*list1))
+            proper_nouns.append(" ".join(entities))
+
+        return proper_nouns

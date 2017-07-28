@@ -3,6 +3,8 @@ from SearchEngine import MySearchEngine
 import nltk
 from nltk.tokenize import word_tokenize
 
+# Try what we did on Wednesday with the sliding window thing.
+
 
 def unzip(pairs):
     """
@@ -71,9 +73,15 @@ def most_associated_with_entity(search_engine, entity, num_entities=10, num_docs
     queries = search_engine.query(entity, k=num_docs)
     docs, scores = unzip(queries)
     associated_entities = []
+    b = []
     for doc in docs:
         a = get_entities(search_engine.get(doc))
         for list1 in a:
             entities, part_of_speech = unzip(list1)
-            associated_entities.append(" ".join(entities))
+            b.append(" ".join(entities))
+
+    for i in b:
+        if i not in associated_entities:
+            associated_entities.append(i)
+
     return associated_entities[:num_entities]
