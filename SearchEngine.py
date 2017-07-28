@@ -1,5 +1,4 @@
 from collections import defaultdict, Counter
-import nltk
 from nltk.tokenize import word_tokenize
 import nltk
 import numpy as np
@@ -20,6 +19,9 @@ class MySearchEngine():
 
         # Dict[str, set]: maps term to set of ids of documents that contain term
         self.inverted_index = defaultdict(set)
+
+        # Dict[str, Counter] maps document id to Entity vector (counts of entity in document)
+        self.entity_vectors = {}
 
         # Dict[str, Counter]: maps Entity phrase to Counter of its coocurrences with other Entity phrases
         self.entity_coocurrences = defaultdict(Counter)
@@ -120,18 +122,23 @@ class MySearchEngine():
         # get entities from raw text
         entities = self.get_entities_from_text(text)
 
-        ent_phrases = set() #set so unique entitity phrases will be captured
+        ent_phrases = []
 
         #unpack list of tuples and join into one string (multiword) phrase per endtity
         for ent_list in entities:
             #unpack, zip, join
             ent_phrase = " ".join(list(zip(*ent_list))[0])
             print(ent_phrase)
-            ent_phrases.add(ent_phrase)
+            ent_phrases.append(ent_phrase)
+
+        # create entity vector for document (a Counter over entities)
+        self.entity_vectors[id] = Counter(ent_phrases)
+
+        ent_phrases_set = set(ent_phrases) #unique elements will be captured
 
         #update entity coocurrence matrix
-        for ref_ent_phrase in ent_phrases:                      #remove self coocurrence
-            self.entity_coocurrences[ref_ent_phrase].update(ent_phrases - {ref_ent_phrase})
+        for ref_ent_phrase in ent_phrases_set:                      #remove self coocurrence
+            self.entity_coocurrences[ref_ent_phrase].update(ent_phrases_set - {ref_ent_phrase})
 
 
     def remove(self, id):
@@ -171,6 +178,16 @@ class MySearchEngine():
             raise KeyError("document with id [" + id + "] not found in index.")
 
         return self.raw_text[id]
+
+    def get_entity_vector(self, id):
+        """ Returns the entity vector for the document with the given id.
+            The entity vector is a counter of all entities in the document.
+        """
+
+        if not id in self.entity_vectors:
+            raise KeyError("document with id [" + id + "] not found in index.")
+
+        return self.entity_vectors[id]
 
     def get_associated_entities(self, entity):
         """ Returns the Counter of coocurrences of given entity with all other
@@ -390,34 +407,3 @@ class MySearchEngine():
 
         # sort results and return top k
         return scores[:k]
-
-    def get_entities(self, sentence):
-        """
-        Gets the entities from a sentence.
-
-        params:
-            sentence[str]:
-                The sentence that you want to get the proper nouns of.
-
-        returns:
-            proper_nouns[list]:
-                A list of proper nouns.
-                ie.
-                ["North Korea", "Kim Jong Un", ... ]
-        """
-
-        tokens = word_tokenize(sentence)
-        pos = nltk.pos_tag(tokens)
-        named_entities = nltk.ne_chunk(pos, binary=True)
-        proper_nouns = []
-        a = []
-        for i in range(0, len(named_entities)):
-            ents = named_entities.pop()
-            if getattr(ents, 'label', None) != None and ents.label() == "NE":
-                a.append([ne for ne in ents])
-
-        for list1 in a:
-            entities, part_of_speech = tuple(zip(*list1))
-            proper_nouns.append(" ".join(entities))
-
-        return proper_nouns
