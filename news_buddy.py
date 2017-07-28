@@ -4,6 +4,7 @@ from nltk.tokenize import word_tokenize
 
 __all__ = ["new_with", "most_associated_with_entity"]
 
+
 def new_with(search_engine, texts):
 
     """

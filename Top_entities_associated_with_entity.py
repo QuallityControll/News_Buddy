@@ -38,11 +38,16 @@ def get_entities(sentence):
     tokens = word_tokenize(sentence)
     pos = nltk.pos_tag(tokens)
     named_entities = nltk.ne_chunk(pos, binary=True)
-    proper_nouns = []
+    a = []
     for i in range(0, len(named_entities)):
         ents = named_entities.pop()
         if getattr(ents, 'label', None) != None and ents.label() == "NE":
-            proper_nouns.append([ne for ne in ents])
+            a.append([ne for ne in ents])
+
+    proper_nouns = []
+    for list1 in a:
+        entities, part_of_speech = unzip(list1)
+        proper_nouns.append(" ".join(entities))
 
     return proper_nouns
 
@@ -70,18 +75,28 @@ def most_associated_with_entity(search_engine, entity, num_entities=10, num_docs
 
     """
 
-    queries = search_engine.query(entity, k=num_docs)
-    docs, scores = unzip(queries)
-    associated_entities = []
+    # queries = search_engine.query(entity, k=num_docs)
+    # docs, scores = unzip(queries)
+    # associated_entities = []
+    # b = []
+    # for doc in docs:
+    #     a = get_entities(search_engine.get(doc))
+    #     for list1 in a:
+    #         entities, part_of_speech = unzip(list1)
+    #         b.append(" ".join(entities))
+    #
+    # for i in b:
+    #     if i not in associated_entities:
+    #         associated_entities.append(i)
+    #
+    # return associated_entities[:num_entities]
+
+    queries = search_engine.query(entity, k=num_docs)  # gets documents that are related to entity
+    docs, scores = unzip(queries)  # unzips that to get docs
     b = []
     for doc in docs:
-        a = get_entities(search_engine.get(doc))
-        for list1 in a:
-            entities, part_of_speech = unzip(list1)
-            b.append(" ".join(entities))
+        b.append([doc, get_entities(search_engine.get(doc))])  # gets the entities in the doc
 
-    for i in b:
-        if i not in associated_entities:
-            associated_entities.append(i)
+    counter_of_matrix_of_entities = Counter()
 
-    return associated_entities[:num_entities]
+
