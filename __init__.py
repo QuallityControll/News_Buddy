@@ -18,7 +18,7 @@ try:
 except:
     mse = MySearchEngine()
 
-def new_with(texts, search_engine = mse):
+def new_with(texts, search_engine = mse, trigger_token = "Reuters"):
 
     """
     Gets the first sentence of the highest ranking document.
@@ -29,6 +29,9 @@ def new_with(texts, search_engine = mse):
 
         texts[Iterable or string]:
             The thing you want to search up.
+
+        trigger_token [String]:
+            The token in a found document that determines where the actual text starts.
 
     returns:
         sentence[str]:
@@ -59,10 +62,17 @@ def new_with(texts, search_engine = mse):
     if "." not in raw_tokens:
         return " ".join(raw_tokens)
 
-    first_period_index = raw_tokens.index(".")
+    try:
+        first_dash_index = raw_tokens.index(trigger_token)
+    except:
+        first_dash_index = 0
+    try:
+        first_period_index = raw_tokens.index(".")
+    except:
+        return "Input phrase not found."
 
     # slice token list to get first sentence, add period to end without space
-    return " ".join(raw_tokens[:first_period_index]) + "."
+    return " ".join(raw_tokens[first_dash_index:first_period_index]) + "."
 
 
 def most_associated_with_entity(entity, search_engine=mse, num_entities=10):
