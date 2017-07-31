@@ -3,6 +3,7 @@ import nltk
 from nltk.tokenize import word_tokenize
 from collections import Counter
 from .collect_rss import collect
+import pickle
 
 __all__ = [
         "new_with",
@@ -168,3 +169,31 @@ def update_via_rss_feed(rss_url, search_engine=mse):
                 except:
                     pass
             print("Added feed to database. Source: " + url)
+
+def save(obj=mse, file_path="mysearchengine.pkl"):
+    """
+    Saves object to a given file_path
+
+    params:
+        obj: [Object]
+            object to save via pickle
+
+        file_path: [String]
+            location in which to save file
+    """
+
+    with open(file_path, "wb") as f:
+        pickle.dump(obj, f)
+
+
+def load(file_path='mysearchengine.pkl'):
+    """
+    Loads object from given file path
+
+    params:
+        file_path: [String]
+            location from which to load file
+    """
+
+    with open(file_path, "rb") as f:
+        mse = pickle.load(f)
