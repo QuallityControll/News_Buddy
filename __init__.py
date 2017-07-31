@@ -12,7 +12,11 @@ __all__ = [
         "update_via_rss_feed"
         ]
 
-mse = MySearchEngine()
+try:
+    with open("mysearchengine.pkl", "rb") as f:
+        mse = pickle.load(f)
+except:
+    mse = MySearchEngine()
 
 def new_with(texts, search_engine = mse):
 
@@ -184,16 +188,3 @@ def save(obj=mse, file_path="mysearchengine.pkl"):
 
     with open(file_path, "wb") as f:
         pickle.dump(obj, f)
-
-
-def load(file_path='mysearchengine.pkl'):
-    """
-    Loads object from given file path
-
-    params:
-        file_path: [String]
-            location from which to load file
-    """
-
-    with open(file_path, "rb") as f:
-        mse = pickle.load(f)
