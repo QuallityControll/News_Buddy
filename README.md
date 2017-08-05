@@ -4,7 +4,7 @@
 
 Returns most recent news from [Reuters](http://www.reuters.com/)*. 
 
-### Here are some sample URLs of news sources that can be used (these can be customized)-
+#### Here are some sample URLs of news sources that can be used (these can be customized)-
 
 [Agriculture](http://feeds.reuters.com/news/artsculture)
 
@@ -56,5 +56,4 @@ Returns most recent news from [Reuters](http://www.reuters.com/)*.
 
 ### \*Credits
 
-Reuters
-rss
+News Feed Was taken from [Reuters](http://www.reuters.com/)
