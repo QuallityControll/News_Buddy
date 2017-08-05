@@ -1,98 +1,60 @@
-# News_Buddy
+# News Buddy
 
-entity: Any proper noun
+## Returns most recent news - 
 
+Returns most recent news from [Reuters](http://www.reuters.com/)*. 
 
-1. What's new with "movies"?
+### Here are some sample URLs of news sources that can be used (these can be customized)-
 
-  --> 1st sentence of highest ranking document
-  ```
-  def new_with(search_engine, texts):
-  
-      """
-      Gets the first sentence of the highest ranking document.
+[Agriculture](http://feeds.reuters.com/news/artsculture)
+
+[Business](http://feeds.reuters.com/reuters/businessNews)
+
+[Company News](http://feeds.reuters.com/reuters/companyNews)
+
+[Entertainment](http://feeds.reuters.com/reuters/entertainment)
+
+[Environment](http://feeds.reuters.com/reuters/environment)
+
+[Health](http://feeds.reuters.com/reuters/healthNews)
+
+[Lifestyle](http://feeds.reuters.com/reuters/lifestyle)
+
+[Wealth](http://feeds.reuters.com/news/wealth)
+
+[Most Read](http://feeds.reuters.com/reuters/MostRead)
+
+[Odd News](http://feeds.reuters.com/reuters/oddlyEnoughNews)
+
+[People News](http://feeds.reuters.com/reuters/peopleNews)
+
+[Politics](http://feeds.reuters.com/Reuters/PoliticsNews)
+
+[Science](http://feeds.reuters.com/reuters/scienceNews)
+
+[Sports](http://feeds.reuters.com/reuters/sportsNews)
+
+[Technology](http://feeds.reuters.com/reuters/technologyNews)
+
+[Top News](http://feeds.reuters.com/reuters/topNews)
+
+[Domestic](http://feeds.reuters.com/Reuters/domesticNews)
+
+[World News](http://feeds.reuters.com/Reuters/worldNews)
+
+## Installation Instuctions:
+
+2) Clone repository into desired file 
+
+3) Run setup.py files to run face recognition use following command:
+
+      ```python nb_setup.py develop```
       
-      param:
-        search_engine [MySearchEngine]:
-          The search engine
-          
-        texts[Iterable or string]:
-          The thing you want to search up.
-          
-       returns:
-         sentence[str]:
-            The first sentence of the highest ranking document.
-        """              
-  ```
- 
-2. Top entity associated with [Kim K]:
+4) Use the command to start the face recognition package after running the setup.py file (use the following command): 
+     
+     ```import news_buddy as nb```
 
-  --> [Chris Jenner, ...]
-  
-  Has a get_entities function
-  
-  ```
-  def get_entities(sentence):
-    """
-    Gets the entities from a sentence.
+### \*Credits
 
-    params:
-        sentence[str]:
-            The sentence that you want to get the proper nouns of.
-
-    returns:
-        proper_nouns[list of list of tuples]:
-            A list of list of tuples that has the proper nouns and their part of speech.
-            ie.
-            [[('North', 'NNP'), ('Korea', 'NNP')],
-            [('Kim', 'NNP'), ('Jong', 'NNP'), ('Un', 'NNP')],
-            [('US', 'NNP')],
-            [('Dennis', 'NNP'), ('Rodman', 'NNP')]]
-
-    """
-  ```
-  
-  ```
-  def most_associated_with_entity(search_engine, entity, k=10):
-    """
-    Gets the entities that are associated with another entity.
-
-    param:
-        search_engine [MySearchEngine]:
-            The search engine
-
-        entity[string]:
-            The entity that you want to find the entities associated with it.
-
-        k[int]:
-            An int that describes the amount of entities returned.
-
-    returns:
-        associated_entities[Iterable]:
-            The top k entities associated with the asked for entity.
-    """
-  ```
-  
-3. Top entities associated with "sports":
-
-  --> [Boston, Boston Red Sox,...]
-  
-  ```
-  def most_associated_with_phrase(search_engine, phrase):
-  
-      """
-      Gets the entities that are associated with a word/topic/phrase. 
-      
-      param:
-        search_engine [MySearchEngine]:
-          The search engine
-          
-        word[str]:
-          The word/phrase that you want to find the entities associated with it. 
-          
-       returns:
-         associated_entities[Iterable]:
-            The entities associated with the asked for word. 
-        """          
-  ```
-
+Reuters
+rss
